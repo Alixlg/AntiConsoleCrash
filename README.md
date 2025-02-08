@@ -1,5 +1,5 @@
 # Anti-Console-Crash
-This program is console-based and written in C#.
+This program is console-based and written in C# and will try to reopen your program if it is closed or crashed.
 
 ## Note !
 

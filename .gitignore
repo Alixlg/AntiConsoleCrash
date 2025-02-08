@@ -1,0 +1,9 @@
+# .NET App
+/bin
+/obj
+/Properties
+*.user
+*.suo
+*.pdb
+*.log
+*.vs/

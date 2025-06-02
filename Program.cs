@@ -9,21 +9,27 @@ internal class Program
         {
             try
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write("Enter the name of the program : ");
-                string programName = Console.ReadLine() ?? "";
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine("<< Select the target program >>");
+                var dialog1 = Tools.OpenDialogFile("Select the target program",".exe");
+                string programPath = dialog1.FileName;
+                string programName = dialog1.SafeFileName.Replace(".exe", "");
 
-                Console.Write("Enter program Path : ");
-                string programPath = Console.ReadLine() ?? "";
-
-                Console.Write("If your program has a restart.bat file, enter its path, if not leave this field blank : ");
-                string batPath = Console.ReadLine() ?? "";
+                Console.WriteLine(programName);
+                
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine("<< If your program has a Restart.bat file, Selected, if not Cancel it >>");
+                var dialog2 = Tools.OpenDialogFile("Select the Restart.bat file if your have",".bat");
+                string batPath = dialog2.FileName;
 
                 Console.ResetColor();
 
                 if (programName == "" || programPath == "")
                 {
-                    Console.WriteLine("Error : Shoma nmitavanid name ya address barname ra ba field khaali por konid !");
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(">> Error : Shoma nmitavanid name ya address barname ra ba field khaali por konid !");
+                    Console.ResetColor();
                     continue;
                 }
 
@@ -32,14 +38,14 @@ internal class Program
                     if (!Tools.IsProcessRunning(programName) && !Tools.IsBatRunningFromPath(batPath))
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Program is closed trying to running again . . .");
+                        Console.WriteLine(">> Program is closed trying to running again . . .");
                         Console.ResetColor();
                         Tools.StartProcess(programPath);
                     }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("Program is running !");
+                        Console.WriteLine(">> Program is running !");
                         Console.ResetColor();
                     }
 
@@ -50,7 +56,7 @@ internal class Program
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"Error : {ex.Message}");
+                Console.WriteLine($">> Error : {ex.Message}");
                 Console.ResetColor();
             }
         }

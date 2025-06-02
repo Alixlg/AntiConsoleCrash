@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Management;
-using System.Threading.Tasks;
 
 namespace AntiCrash
 {
@@ -92,6 +88,39 @@ namespace AntiCrash
                     Console.ResetColor();
                 }
             }
+        }
+        public static OpenFileDialog OpenDialogFile(string titleName, string filter)
+        {
+            OpenFileDialog result = new();
+
+            Thread thread = new(() =>
+            {
+                OpenFileDialog openFileDialog = new()
+                {
+                    Title = titleName,
+                    Filter = $"Executable files (*{filter})|*{filter}"
+                };
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    result = openFileDialog;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("File: " + openFileDialog.FileName);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    result = openFileDialog;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("No file selected");
+                    Console.ResetColor();
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            thread.Join();
+
+            return result;
         }
     }
 }
